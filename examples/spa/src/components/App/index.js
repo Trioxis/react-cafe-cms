@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {CMSProvider} from '@trioxis/react-cafe-cms';
 
 import Hero from '../Hero';
+import Body from '../Body';
 
 class App extends Component {
   render() {
@@ -9,9 +10,7 @@ class App extends Component {
       <CMSProvider website='example-spa'>
         <div>
           <Hero />
-          <p>
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
+          <Body />
         </div>
       </CMSProvider>
     );
