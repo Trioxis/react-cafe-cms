@@ -1,0 +1,46 @@
+version: 2
+jobs:
+   build:
+     docker:
+       - image: circleci/node:latest
+     working_directory: ~/react-cafe-cms
+     steps:
+       - checkout
+       - run:
+           name: Install pcakage
+           command: yarn install
+       - save_cache:
+           key: dependency-cache-{{ checksum "yarn.lock" }}
+           paths:
+             - ~/react-cafe-cms
+
+   test:
+      docker:
+        - image: circleci/node:latest
+      working_directory: ~/react-cafe-cms
+      steps:
+        - checkout
+        - restore_cache:
+            keys:
+            # Find a cache corresponding to this specific yarn.lock checksum
+            # when this file is changed, this key will fail
+              - dependency-cache-{{ checksum "yarn.lock" }}
+        - run:
+            name: Save Jest test results
+            command: yarn test --ci --testResultsProcessor="jest-junit"
+            environment:
+              JEST_JUNIT_OUTPUT: "reports/test-results/jest-junit.xml"
+        - store_test_results:
+            path: reports/test-results
+        - store_artifacts:
+            path: reports/test-results
+
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
