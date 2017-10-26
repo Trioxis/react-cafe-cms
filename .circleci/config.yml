@@ -10,7 +10,7 @@ jobs:
            name: Install pcakage
            command: yarn install
        - save_cache:
-           key: dependency-cache-{{ checksum "yarn.lock" }}
+           key: dependency-cache-{{ checksum "package.json" }}
            paths:
              - ~/react-cafe-cms
 
@@ -24,7 +24,7 @@ jobs:
             keys:
             # Find a cache corresponding to this specific yarn.lock checksum
             # when this file is changed, this key will fail
-              - dependency-cache-{{ checksum "yarn.lock" }}
+              - dependency-cache-{{ checksum "package.json" }}
         - run:
             name: Save Jest test results
             command: yarn test --ci --testResultsProcessor="jest-junit"
