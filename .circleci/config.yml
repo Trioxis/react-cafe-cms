@@ -35,7 +35,6 @@ jobs:
         - store_artifacts:
             path: reports/test-results
 
-
 workflows:
   version: 2
   build_and_test:
